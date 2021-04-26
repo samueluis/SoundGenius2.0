@@ -1,14 +1,21 @@
 ﻿@model SoundGenius.Models.Faixas
 
+
 @{
     ViewData["Title"] = "Detalhes de uma faixa " + Model.Titulo;
 }
 
-<h1>faixa</h1>
+<h1>Faixa</h1>
 
 <div>
     <hr />
     <dl class="row">
+        <dt class="col-sm-4">
+
+        </dt>
+        <dd class="col-sm-8">
+            <img src="~/Imagens/Faixas/@Model.FicheiroImg" height="300" width="350" alt="imagem da faixa @Model.Titulo" title="@Model.Titulo" />
+        </dd>
         <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Titulo)
         </dt>
@@ -16,50 +23,39 @@
             @Html.DisplayFor(model => model.Titulo)
         </dd>
         <dt class="col-sm-4">
+            Artista
+        </dt>
+        <dd class="col-sm-8">
+            @foreach (var AlbumFaixa in Model.AlbumFaixas)
+            { // listar todas as faixas Associadas aos albuns que está em exibição
+                <tr>                   
+                        <a asp-action="Details" asp-route-id="@AlbumFaixa.ID">
+                            @AlbumFaixa.Album.Artista.Nome
+                        </a>                  
+                </tr>
+            }
+        </dd>
+        <dt class="col-sm-4">
+            Album
+        </dt>
+        <dd class="col-sm-8">
+            @foreach (var AlbumFaixa in Model.AlbumFaixas)
+            { // listar todas as faixas Associadas aos albuns que está em exibição
+            <tr>
+                <a asp-action="Details" asp-route-id="@AlbumFaixa.ID">
+                    <td>@AlbumFaixa.Album.Titulo</td>
+                </a>
+            </tr>
+            }
+        <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Genero)
         </dt>
         <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Genero)
         </dd>
-        <dt class="col-sm-4">
-            @Html.DisplayNameFor(model => model.FicheiroImg)
-        </dt>
-        <dd class="col-sm-8">
-            <img src="~/Imagens/Faixas/@Model.FicheiroImg"height="300" width="350" alt="imagem da faixa @Model.Titulo" title="@Model.Titulo" />
-        </dd>
+        
     </dl>
 </div>
-
-<!-- outra linha de comentário -->
-@* Adicionar as album do faixa *@
-<h4>Lista de album associadas à faixa <i>@Model.Titulo</i> </h4>
-
-@if (Model.AlbumFaixas.Count == 0)
-{
-    <p>Não há Albuns associadas à faixa.</p>
-}
-else
-{
-    <table class="table">
-        <tr>
-            <th>ID</th>
-            <th>Album</th>
-            <th>Artista</th>
-        </tr>
-        @foreach (var AlbumFaixa in Model.AlbumFaixas)
-        { // listar todas as faixas Associadas aos albuns que está em exibição
-            <tr>
-                <td>@AlbumFaixa.ID</td>
-                <td>@AlbumFaixa.Album.Titulo</td>
-                <td>@AlbumFaixa.Album.Artista.Nome</td>
-            </tr>
-        }
-    </table>
-}
-
-<br />
-<br />
-
 
 
 
