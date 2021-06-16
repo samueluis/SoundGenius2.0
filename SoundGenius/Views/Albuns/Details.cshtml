@@ -11,7 +11,7 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-4">
-            
+
         </dt>
         <dd class="col-sm-8">
             <img src="~/Imagens/Albuns/@Model.FicheiroImg" height="300" width="350" alt="imagem do artista @Model.Titulo" title="@Model.Titulo" />
@@ -28,10 +28,16 @@
         <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Genero)
         </dd>
+        <dt class="col-sm-4">
+            Data de lançamento
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Data)
+        </dd>
 
     </dl>
 </div>
-<h4>Lista de músicas associadas a<i>@Model.Titulo</i> </h4>
+<h4>Lista de músicas associadas a <i>@Model.Titulo</i> </h4>
 
 @if (Model.AlbumFaixas.Count == 0)
 {
@@ -40,13 +46,16 @@
 else
 {
     <table class="table">
-        <tr>
+        @*<tr>
             <th>Titulo</th>
-        </tr>
+        </tr>*@
         @foreach (var AlbumFaixa in Model.AlbumFaixas)
         { // listar todas as faixas Associadas aos albuns que está em exibição
     <tr>
-        <td>@AlbumFaixa.Faixa.Titulo</td>
+        <td><a asp-controller="Music" asp-action="Details" asp-route-id="@AlbumFaixa.Faixa.ID">
+             @AlbumFaixa.Faixa.Titulo
+            </a>
+        </td>
     </tr>
         }
     </table>

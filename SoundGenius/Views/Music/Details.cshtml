@@ -28,10 +28,10 @@
         <dd class="col-sm-8">
             @foreach (var AlbumFaixa in Model.AlbumFaixas)
             { // listar todas as faixas Associadas aos albuns que está em exibição
-                <tr>                   
-                        <a asp-action="Details" asp-route-id="@AlbumFaixa.ID">
-                            @AlbumFaixa.Album.Artista.Nome
-                        </a>                  
+                <tr>
+                    <a asp-controller="Artistas" asp-action="Details" asp-route-id="@AlbumFaixa.Album.Artista.ID">
+                        @AlbumFaixa.Album.Artista.Nome
+                    </a>
                 </tr>
             }
         </dd>
@@ -41,11 +41,11 @@
         <dd class="col-sm-8">
             @foreach (var AlbumFaixa in Model.AlbumFaixas)
             { // listar todas as faixas Associadas aos albuns que está em exibição
-            <tr>
-                <a asp-action="Details" asp-route-id="@AlbumFaixa.ID">
-                    <td>@AlbumFaixa.Album.Titulo</td>
-                </a>
-            </tr>
+                <tr>
+                    <a asp-controller="Albuns" asp-action="Details" asp-route-id="@AlbumFaixa.Album.ID">
+                        <td>@AlbumFaixa.Album.Titulo</td>
+                    </a>
+                </tr>
             }
         <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Genero)
@@ -53,7 +53,7 @@
         <dd class="col-sm-8">
             @Html.DisplayFor(model => model.Genero)
         </dd>
-        
+
     </dl>
 </div>
 

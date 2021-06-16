@@ -83,15 +83,15 @@ namespace SoundGenius.Data
 
             // insert DB seed
             modelBuilder.Entity<Albuns>().HasData(
-               new Albuns { ID = 1, Titulo = "MTV Unplugged", Genero = "Grunge", FicheiroImg = "MTV Unplugged.jpg", ArtistaFK = 1 },
-               new Albuns { ID = 2, Titulo = "Bleach", Genero = "Grunge", FicheiroImg = "Bleach.jpg", ArtistaFK = 1 },
-               new Albuns { ID = 3, Titulo = "Nevermind", Genero = "Grunge", FicheiroImg = "Nevermind.jpg", ArtistaFK = 1 },
-               new Albuns { ID = 4, Titulo = "The color and the shape", Genero = "Rock Alternativo ", FicheiroImg = "The color and the shape.jpg", ArtistaFK = 2 },
-               new Albuns { ID = 5, Titulo = " In Your Honor", Genero = "Rock Alternativo ", FicheiroImg = "In Your Honor.jpg", ArtistaFK = 2 },
-               new Albuns { ID = 6, Titulo = "Foo Fighters Echoes, Silence, Patience & Grace", Genero = "Rock Alternativo ", FicheiroImg = "Foo Fighters Echoes, Silence, Patience & Grace.jpg", ArtistaFK = 2 },
-               new Albuns { ID = 7, Titulo = "Testing", Genero = "Hip hop", FicheiroImg = "Testing.jpg", ArtistaFK = 3 },
-               new Albuns { ID = 8, Titulo = "Long. Live. ASAP", Genero = "Hip hop", FicheiroImg = "Long. Live. ASAP.jpg", ArtistaFK = 3 },
-               new Albuns { ID = 9, Titulo = "goodbye & good riddance", Genero = "Hip hop ", FicheiroImg = "goodbye & good riddance.jpg", ArtistaFK = 4 }
+               new Albuns { ID = 1, Titulo = "MTV Unplugged", Genero = "Grunge", FicheiroImg = "MTV Unplugged.jpg", Data = "11", ArtistaFK = 1 },
+               new Albuns { ID = 2, Titulo = "Bleach", Genero = "Grunge", FicheiroImg = "Bleach.jpg", Data = "11", ArtistaFK = 1 },
+               new Albuns { ID = 3, Titulo = "Nevermind", Genero = "Grunge", FicheiroImg = "Nevermind.jpg", Data = "11", ArtistaFK = 1 },
+               new Albuns { ID = 4, Titulo = "The color and the shape", Genero = "Rock Alternativo ", FicheiroImg = "The color and the shape.jpg", Data = "11", ArtistaFK = 2 },
+               new Albuns { ID = 5, Titulo = " In Your Honor", Genero = "Rock Alternativo ", FicheiroImg = "In Your Honor.jpg", Data = "11", ArtistaFK = 2 },
+               new Albuns { ID = 6, Titulo = "Foo Fighters Echoes, Silence, Patience & Grace", Genero = "Rock Alternativo ", FicheiroImg = "Foo Fighters Echoes, Silence, Patience & Grace.jpg", Data = "11", ArtistaFK = 2 },
+               new Albuns { ID = 7, Titulo = "Testing", Genero = "Hip hop", FicheiroImg = "Testing.jpg", Data = "11", ArtistaFK = 3 },
+               new Albuns { ID = 8, Titulo = "Long. Live. ASAP", Genero = "Hip hop", FicheiroImg = "Long. Live. ASAP.jpg", Data = "11", ArtistaFK = 3 },
+               new Albuns { ID = 9, Titulo = "goodbye & good riddance", Genero = "Hip hop ", FicheiroImg = "goodbye & good riddance.jpg", Data = "11", ArtistaFK = 4 }
                 );
 
 
@@ -106,7 +106,8 @@ namespace SoundGenius.Data
                new AlbumFaixas { ID = 7, AlbumFK = 7, FaixaFK = 7 },
                new AlbumFaixas { ID = 8, AlbumFK = 8, FaixaFK = 8 },
                new AlbumFaixas { ID = 9, AlbumFK = 9, FaixaFK = 10 },
-               new AlbumFaixas { ID = 10, AlbumFK = 7, FaixaFK = 9 }
+               new AlbumFaixas { ID = 10, AlbumFK = 7, FaixaFK = 9 },
+               new AlbumFaixas { ID = 11, AlbumFK = 1, FaixaFK = 9 }
                 );
         }
 

@@ -47,7 +47,10 @@ else
         @foreach (var Albuns in Model.Albuns)
         { // listar todas as faixas Associadas aos albuns que está em exibição
             <tr>
-                <td>@Albuns.Titulo</td>
+                <td><a asp-controller="Albuns" asp-action="Details" asp-route-id="@Albuns.ID">
+                     @Albuns.Titulo
+                    </a>
+                </td>
             </tr>
         }
     </table>

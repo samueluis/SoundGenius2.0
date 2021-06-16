@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,8 @@ namespace SoundGenius.Models
         public string Titulo { get; set; }
 
         public string Genero { get; set; }
+
+        public string Data { get; set; }
 
         public string FicheiroImg { get; set; }
 

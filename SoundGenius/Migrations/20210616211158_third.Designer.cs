@@ -10,14 +10,14 @@ using SoundGenius.Data;
 namespace SoundGenius.Migrations
 {
     [DbContext(typeof(SoundGeniusDB))]
-    [Migration("20200708160503_First")]
-    partial class First
+    [Migration("20210616211158_third")]
+    partial class third
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -311,6 +311,12 @@ namespace SoundGenius.Migrations
                             ID = 10,
                             AlbumFK = 7,
                             FaixaFK = 9
+                        },
+                        new
+                        {
+                            ID = 11,
+                            AlbumFK = 1,
+                            FaixaFK = 9
                         });
                 });
 
@@ -323,6 +329,9 @@ namespace SoundGenius.Migrations
 
                     b.Property<int>("ArtistaFK")
                         .HasColumnType("int");
+
+                    b.Property<string>("Data")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FicheiroImg")
                         .HasColumnType("nvarchar(max)");
@@ -344,6 +353,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 1,
                             ArtistaFK = 1,
+                            Data = "11",
                             FicheiroImg = "MTV Unplugged.jpg",
                             Genero = "Grunge",
                             Titulo = "MTV Unplugged"
@@ -352,6 +362,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 2,
                             ArtistaFK = 1,
+                            Data = "11",
                             FicheiroImg = "Bleach.jpg",
                             Genero = "Grunge",
                             Titulo = "Bleach"
@@ -360,6 +371,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 3,
                             ArtistaFK = 1,
+                            Data = "11",
                             FicheiroImg = "Nevermind.jpg",
                             Genero = "Grunge",
                             Titulo = "Nevermind"
@@ -368,6 +380,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 4,
                             ArtistaFK = 2,
+                            Data = "11",
                             FicheiroImg = "The color and the shape.jpg",
                             Genero = "Rock Alternativo ",
                             Titulo = "The color and the shape"
@@ -376,6 +389,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 5,
                             ArtistaFK = 2,
+                            Data = "11",
                             FicheiroImg = "In Your Honor.jpg",
                             Genero = "Rock Alternativo ",
                             Titulo = " In Your Honor"
@@ -384,6 +398,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 6,
                             ArtistaFK = 2,
+                            Data = "11",
                             FicheiroImg = "Foo Fighters Echoes, Silence, Patience & Grace.jpg",
                             Genero = "Rock Alternativo ",
                             Titulo = "Foo Fighters Echoes, Silence, Patience & Grace"
@@ -392,6 +407,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 7,
                             ArtistaFK = 3,
+                            Data = "11",
                             FicheiroImg = "Testing.jpg",
                             Genero = "Hip hop",
                             Titulo = "Testing"
@@ -400,6 +416,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 8,
                             ArtistaFK = 3,
+                            Data = "11",
                             FicheiroImg = "Long. Live. ASAP.jpg",
                             Genero = "Hip hop",
                             Titulo = "Long. Live. ASAP"
@@ -408,6 +425,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 9,
                             ArtistaFK = 4,
+                            Data = "11",
                             FicheiroImg = "goodbye & good riddance.jpg",
                             Genero = "Hip hop ",
                             Titulo = "goodbye & good riddance"
