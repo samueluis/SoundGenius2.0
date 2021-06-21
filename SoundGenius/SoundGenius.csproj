@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210621165208_1.cs" />
+    <Compile Remove="Migrations\20210621165208_1.Designer.cs" />
+    <Compile Remove="Migrations\20210621170356_1.cs" />
+    <Compile Remove="Migrations\20210621170356_1.Designer.cs" />
+    <Compile Remove="Migrations\20210621170737_1.cs" />
+    <Compile Remove="Migrations\20210621170737_1.Designer.cs" />
+    <Compile Remove="Migrations\20210621172445_1.cs" />
+    <Compile Remove="Migrations\20210621172445_1.Designer.cs" />
+    <Compile Remove="Migrations\20210621172650_1.cs" />
+    <Compile Remove="Migrations\20210621172650_1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Models\NewFile.txt" />
   </ItemGroup>
 
@@ -22,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\Imagens\Users\" />
   </ItemGroup>
 

@@ -10,8 +10,8 @@ using SoundGenius.Data;
 namespace SoundGenius.Migrations
 {
     [DbContext(typeof(SoundGeniusDB))]
-    [Migration("20210616211158_third")]
-    partial class third
+    [Migration("20210621172844_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,22 @@ namespace SoundGenius.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ad",
+                            ConcurrencyStamp = "94f374f0-35dc-4a8c-af86-de113d3d06b1",
+                            Name = "administrador",
+                            NormalizedName = "administrador"
+                        },
+                        new
+                        {
+                            Id = "c",
+                            ConcurrencyStamp = "322f846e-33d9-4079-87ba-0dcd47409aa0",
+                            Name = "utilizadore",
+                            NormalizedName = "utilizadore"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -70,6 +86,92 @@ namespace SoundGenius.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f554eee4-e19d-4830-a02c-aabe9f18e8a7",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644",
+                            Email = "gerente@ipt.pt",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "GERENTE@IPT.PT",
+                            NormalizedUserName = "GERENTE@IPT.PT",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL",
+                            TwoFactorEnabled = false,
+                            UserName = "gerente@ipt.pt"
+                        },
+                        new
+                        {
+                            Id = "91b48022-fcca-4aed-8bee-63f2ff93a8c5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644",
+                            Email = "utilizadore@ipt.pt",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "UTILIZADORE@IPT.PT",
+                            NormalizedUserName = "UTILIZADORE@IPT.PT",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL",
+                            TwoFactorEnabled = false,
+                            UserName = "utilizadore@ipt.pt"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -174,9 +276,6 @@ namespace SoundGenius.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Fotografia")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -330,8 +429,8 @@ namespace SoundGenius.Migrations
                     b.Property<int>("ArtistaFK")
                         .HasColumnType("int");
 
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FicheiroImg")
                         .HasColumnType("nvarchar(max)");
@@ -353,7 +452,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 1,
                             ArtistaFK = 1,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "MTV Unplugged.jpg",
                             Genero = "Grunge",
                             Titulo = "MTV Unplugged"
@@ -362,7 +461,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 2,
                             ArtistaFK = 1,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "Bleach.jpg",
                             Genero = "Grunge",
                             Titulo = "Bleach"
@@ -371,7 +470,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 3,
                             ArtistaFK = 1,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "Nevermind.jpg",
                             Genero = "Grunge",
                             Titulo = "Nevermind"
@@ -380,7 +479,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 4,
                             ArtistaFK = 2,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "The color and the shape.jpg",
                             Genero = "Rock Alternativo ",
                             Titulo = "The color and the shape"
@@ -389,7 +488,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 5,
                             ArtistaFK = 2,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "In Your Honor.jpg",
                             Genero = "Rock Alternativo ",
                             Titulo = " In Your Honor"
@@ -398,7 +497,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 6,
                             ArtistaFK = 2,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "Foo Fighters Echoes, Silence, Patience & Grace.jpg",
                             Genero = "Rock Alternativo ",
                             Titulo = "Foo Fighters Echoes, Silence, Patience & Grace"
@@ -407,7 +506,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 7,
                             ArtistaFK = 3,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "Testing.jpg",
                             Genero = "Hip hop",
                             Titulo = "Testing"
@@ -416,7 +515,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 8,
                             ArtistaFK = 3,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "Long. Live. ASAP.jpg",
                             Genero = "Hip hop",
                             Titulo = "Long. Live. ASAP"
@@ -425,7 +524,7 @@ namespace SoundGenius.Migrations
                         {
                             ID = 9,
                             ArtistaFK = 4,
-                            Data = "11",
+                            Data = new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FicheiroImg = "goodbye & good riddance.jpg",
                             Genero = "Hip hop ",
                             Titulo = "goodbye & good riddance"
@@ -502,9 +601,6 @@ namespace SoundGenius.Migrations
                     b.Property<string>("Titulo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
 
                     b.ToTable("Faixas");
@@ -579,6 +675,103 @@ namespace SoundGenius.Migrations
                             FicheiroImg = "goodbye & good riddance.jpg",
                             Genero = "Hip hop",
                             Titulo = "Wasted"
+                        });
+                });
+
+            modelBuilder.Entity("SoundGenius.Models.Funcionarios", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
+
+                    b.Property<int>("NumFuncionario")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
+
+                    b.Property<string>("TipoFuncionario")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Funcionarios");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Email = "gerente@ipt.pt",
+                            Nome = "Gerente Gerente",
+                            NumFuncionario = 666,
+                            Telefone = "987456123",
+                            TipoFuncionario = "administrador",
+                            UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7"
+                        });
+                });
+
+            modelBuilder.Entity("SoundGenius.Models.Utilizadores", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodigoPostal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Morada")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(70)")
+                        .HasMaxLength(70);
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(9)")
+                        .HasMaxLength(9);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Utilizadores");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CodigoPostal = "2000-070 Almeirim",
+                            Email = "utilizadore@ipt.pt",
+                            Morada = "Rua São João da Ribeira, nº59",
+                            Nome = "Utilizadore Utilizadore",
+                            Telefone = "987456123",
+                            UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5"
                         });
                 });
 

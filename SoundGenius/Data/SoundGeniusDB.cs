@@ -23,10 +23,6 @@ namespace SoundGenius.Data
         /// </summary>
         public string Nome { get; set; }
 
-        /// <summary>
-        /// avatar da pessoa q se regista, e posteriormente, autentica
-        /// </summary>
-        public string Fotografia { get; set; }
 
         /// <summary>
         /// registo da hora+data da criação do registo
@@ -58,6 +54,29 @@ namespace SoundGenius.Data
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Id = "ad", Name = "administrador", NormalizedName = "administrador" },
+                new IdentityRole { Id = "c", Name = "utilizadore", NormalizedName = "utilizadore" }
+                );
+            modelBuilder.Entity<IdentityUser>().HasData(
+                new IdentityUser { Id = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", UserName = "gerente@ipt.pt", NormalizedUserName = "GERENTE@IPT.PT", Email = "gerente@ipt.pt", NormalizedEmail = "GERENTE@IPT.PT", EmailConfirmed = true, PasswordHash = "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", SecurityStamp = "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", ConcurrencyStamp = "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644" },
+                new IdentityUser { Id = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", UserName = "utilizadore@ipt.pt", NormalizedUserName = "UTILIZADORE@IPT.PT", Email = "utilizadore@ipt.pt", NormalizedEmail = "UTILIZADORE@IPT.PT", EmailConfirmed = true, PasswordHash = "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", SecurityStamp = "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", ConcurrencyStamp = "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644" }
+                );
+            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+            //    new IdentityUserRole<string> { UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", RoleId = "ad" },
+            //    new IdentityUserRole<string> { UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", RoleId = "c" }
+            //    );
+            //modelBuilder.Entity<IdentityUserClaim<string>>().HasData(
+            //    new IdentityUserClaim<string> { Id = 1, UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", ClaimType = "Nome", ClaimValue = "Gerente Gerente" },
+            //    new IdentityUserClaim<string> { Id = 3, UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", ClaimType = "Nome", ClaimValue = "Utilizadore Utilizadore" }
+            //    );
+            modelBuilder.Entity<Funcionarios>().HasData(
+                new Funcionarios { ID = 1, Email = "gerente@ipt.pt", Nome = "Gerente Gerente", NumFuncionario = 666, Password = null, Telefone = "987456123", TipoFuncionario = "administrador", UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7" }
+                );
+            modelBuilder.Entity<Utilizadores>().HasData(
+                    new Utilizadores { ID = 1, Email = "utilizadore@ipt.pt", Nome = "Utilizadore Utilizadore", CodigoPostal = "2000-070 Almeirim", Morada = "Rua São João da Ribeira, nº59", Telefone = "987456123", UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5" }
+                );
+
 
             // insert DB seed
             modelBuilder.Entity<Faixas>().HasData(
@@ -83,15 +102,15 @@ namespace SoundGenius.Data
 
             // insert DB seed
             modelBuilder.Entity<Albuns>().HasData(
-               new Albuns { ID = 1, Titulo = "MTV Unplugged", Genero = "Grunge", FicheiroImg = "MTV Unplugged.jpg", Data = "11", ArtistaFK = 1 },
-               new Albuns { ID = 2, Titulo = "Bleach", Genero = "Grunge", FicheiroImg = "Bleach.jpg", Data = "11", ArtistaFK = 1 },
-               new Albuns { ID = 3, Titulo = "Nevermind", Genero = "Grunge", FicheiroImg = "Nevermind.jpg", Data = "11", ArtistaFK = 1 },
-               new Albuns { ID = 4, Titulo = "The color and the shape", Genero = "Rock Alternativo ", FicheiroImg = "The color and the shape.jpg", Data = "11", ArtistaFK = 2 },
-               new Albuns { ID = 5, Titulo = " In Your Honor", Genero = "Rock Alternativo ", FicheiroImg = "In Your Honor.jpg", Data = "11", ArtistaFK = 2 },
-               new Albuns { ID = 6, Titulo = "Foo Fighters Echoes, Silence, Patience & Grace", Genero = "Rock Alternativo ", FicheiroImg = "Foo Fighters Echoes, Silence, Patience & Grace.jpg", Data = "11", ArtistaFK = 2 },
-               new Albuns { ID = 7, Titulo = "Testing", Genero = "Hip hop", FicheiroImg = "Testing.jpg", Data = "11", ArtistaFK = 3 },
-               new Albuns { ID = 8, Titulo = "Long. Live. ASAP", Genero = "Hip hop", FicheiroImg = "Long. Live. ASAP.jpg", Data = "11", ArtistaFK = 3 },
-               new Albuns { ID = 9, Titulo = "goodbye & good riddance", Genero = "Hip hop ", FicheiroImg = "goodbye & good riddance.jpg", Data = "11", ArtistaFK = 4 }
+               new Albuns { ID = 1, Titulo = "MTV Unplugged", Genero = "Grunge", FicheiroImg = "MTV Unplugged.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 1 },
+               new Albuns { ID = 2, Titulo = "Bleach", Genero = "Grunge", FicheiroImg = "Bleach.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 1 },
+               new Albuns { ID = 3, Titulo = "Nevermind", Genero = "Grunge", FicheiroImg = "Nevermind.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 1 },
+               new Albuns { ID = 4, Titulo = "The color and the shape", Genero = "Rock Alternativo ", FicheiroImg = "The color and the shape.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 2 },
+               new Albuns { ID = 5, Titulo = " In Your Honor", Genero = "Rock Alternativo ", FicheiroImg = "In Your Honor.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 2 },
+               new Albuns { ID = 6, Titulo = "Foo Fighters Echoes, Silence, Patience & Grace", Genero = "Rock Alternativo ", FicheiroImg = "Foo Fighters Echoes, Silence, Patience & Grace.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 2 },
+               new Albuns { ID = 7, Titulo = "Testing", Genero = "Hip hop", FicheiroImg = "Testing.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 3 },
+               new Albuns { ID = 8, Titulo = "Long. Live. ASAP", Genero = "Hip hop", FicheiroImg = "Long. Live. ASAP.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 3 },
+               new Albuns { ID = 9, Titulo = "goodbye & good riddance", Genero = "Hip hop ", FicheiroImg = "goodbye & good riddance.jpg", Data = new DateTime(2019, 5, 20), ArtistaFK = 4 }
                 );
 
 
@@ -122,7 +141,10 @@ namespace SoundGenius.Data
         public virtual DbSet<Faixas> Faixas { get; set; }
         public virtual DbSet<Artista> Artista { get; set; }
 
+        public virtual DbSet<Utilizadores> Utilizadores { get; set; }
+
+        public virtual DbSet<Funcionarios> Funcionarios { get; set; }
+
 
     }
 }
-

@@ -31,23 +31,14 @@ namespace SoundGenius.Controllers
         /// </summary>
         private readonly IWebHostEnvironment _caminho;
 
-        /// <summary>
-        /// recolher os dados de uma pessoa que está autenticada
-        /// </summary>
-        private readonly UserManager<ApplicationUser> _userManager;
-
         public AlbunsController(
-                       SoundGeniusDB context,
-                       IWebHostEnvironment caminho,
-                       UserManager<ApplicationUser> userManager)
+                     SoundGeniusDB context,
+                     IWebHostEnvironment caminho)
         {
             _context = context;
             _caminho = caminho;
-            _userManager = userManager;
+            
         }
-
-
-
 
 
         // GET: Albuns

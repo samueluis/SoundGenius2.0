@@ -19,7 +19,7 @@ namespace SoundGenius.Models
 
         public string Genero { get; set; }
 
-        public string Data { get; set; }
+        public DateTime Data { get; set; }
 
         public string FicheiroImg { get; set; }
 

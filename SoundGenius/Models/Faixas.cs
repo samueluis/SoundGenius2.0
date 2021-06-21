@@ -30,6 +30,6 @@ namespace SoundGenius.Models
         /// <summary>
         /// este atributo irá receber o ID do utilizador que se autentica
         /// </summary>
-        public string UserName { get; set; }
+        //public string UserName { get; set; }
     }
 }
