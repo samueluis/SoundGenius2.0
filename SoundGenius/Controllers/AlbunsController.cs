@@ -112,7 +112,7 @@ namespace SoundGenius.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
+        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,Data,Faixa,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
         {
             // **************************************
             // processar a fotografia
@@ -155,10 +155,12 @@ namespace SoundGenius.Controllers
 
             if (ModelState.IsValid)
             {
+                _context.Add(album);
+                await _context.SaveChangesAsync();
                 try
                 {
-                    _context.Add(album);
-                    await _context.SaveChangesAsync();
+                    //_context.Add(album);
+                    //await _context.SaveChangesAsync();
                     // se há imagem, vou guardá-la no disco rígido
                     if (haImagem)
                     {

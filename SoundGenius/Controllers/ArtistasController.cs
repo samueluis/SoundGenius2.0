@@ -74,7 +74,7 @@ namespace SoundGenius.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nome,Sexo,FicheiroImg")]Artista artista, IFormFile fotoArtista)
+        public async Task<IActionResult> Create([Bind("ID,Nome,Sexo,Albuns,FicheiroImg")]Artista artista, IFormFile fotoArtista)
         {
 
             if (ModelState.IsValid)

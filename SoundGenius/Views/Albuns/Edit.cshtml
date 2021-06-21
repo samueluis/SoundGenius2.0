@@ -6,7 +6,7 @@
 
 <h1>Edit</h1>
 
-<h4>Artista</h4>
+<h4>Albuns</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,12 +24,17 @@
                 <span asp-validation-for="Genero" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Data" class="control-label"></label>
+                <input asp-for="Data" class="form-control" />
+                <span asp-validation-for="Data" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="FicheiroImg" class="control-label"></label>
                 <input asp-for="FicheiroImg" class="form-control" />
                 <span asp-validation-for="FicheiroImg" class="text-danger"></span>
                 <div class="form-group">
                     <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+                </div>
         </form>
     </div>
 </div>

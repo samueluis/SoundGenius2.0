@@ -13,12 +13,11 @@
 
          @{
             string nomeUser = (await UserManager.GetUserAsync(User)).Nome;
-            string fotoUser = (await UserManager.GetUserAsync(User)).Fotografia;
+            //string fotoUser = (await UserManager.GetUserAsync(User)).Fotografia;
 
          }
-         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-            <img src="~/imagens/Users/" height="30" alt="fotografia do @nomeUser" title="@nomeUser" />
-            @nomeUser!
+         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">         
+            @nomeUser
          </a>
 
 

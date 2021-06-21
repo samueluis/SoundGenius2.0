@@ -181,41 +181,45 @@ namespace SoundGenius.Controllers {
 
          var faixas = await _context.Faixas.FindAsync(id);
          if (faixas == null) {
-            return NotFound();
-         }
-
-
-
+                return RedirectToAction("Index");
+            }
          return View(faixas);
       }
 
         // POST: faixa/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.       
         [HttpPost]
-      [ValidateAntiForgeryToken]      
-      public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,NumCedulaProf,Fotografia")] Faixas faixas) {
-         if (id != faixas.ID) {
-            return NotFound();
-         }
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Titulo,Genero,FicheiroImg")] Faixas faixas)
+        {
+            if (id != faixas.ID)
+            {
+                return RedirectToAction("Index");
+            }
 
-         if (ModelState.IsValid) {
-            try {
-               _context.Update(faixas);
-               await _context.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(faixas);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!FaixasExists(faixas.ID))
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateConcurrencyException) {
-               if (!FaixasExists(faixas.ID)) {
-                  return NotFound();
-               }
-               else {
-                  throw;
-               }
-            }
-            return RedirectToAction(nameof(Index));
-         }
-         return View(faixas);
-      }
+            return View(faixas);
+        }
 
         // GET: faixa/Delete/5
         public async Task<IActionResult> Delete(int? id) {
