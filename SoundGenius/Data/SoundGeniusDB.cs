@@ -10,32 +10,12 @@ using SoundGenius.Models;
 namespace SoundGenius.Data
 {
 
-    /// <summary>
-    /// Esta classe estende o conjunto de dados de um utilizador, criado a quando da Identity
-    /// É necessário, alterar a definição da BD, e redefinir a nossa aplicação para usar este novo utilizador
-    /// Em todos os sítios onde se referenciar 'IdentityUser' deverá referenciar-se 'ApplicationUser'
-    /// </summary>
-    public class ApplicationUser : IdentityUser
-    {
-
-        /// <summary>
-        /// nome da pessoa q se regista, e posteriormente, autentica
-        /// </summary>
-        public string Nome { get; set; }
-
-
-        /// <summary>
-        /// registo da hora+data da criação do registo
-        /// </summary>
-        public DateTime Timestamp { get; set; }
-    }
-
 
     /// <summary>
     /// criação da BD do projeto.
     /// Neste caso concreto, estamos a usar os dados genéricos + os dados particulares da nossa aplicação
     /// </summary>
-    public class SoundGeniusDB : IdentityDbContext<ApplicationUser>
+    public class SoundGeniusDB : IdentityDbContext
     {
 
 
@@ -55,26 +35,26 @@ namespace SoundGenius.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Id = "ad", Name = "administrador", NormalizedName = "administrador" },
-                new IdentityRole { Id = "c", Name = "utilizadore", NormalizedName = "utilizadore" }
+                new IdentityRole { Id = "ad", Name = "gerente", NormalizedName = "gerente" },
+                new IdentityRole { Id = "u", Name = "utilizadore", NormalizedName = "utilizadore" }
                 );
             modelBuilder.Entity<IdentityUser>().HasData(
                 new IdentityUser { Id = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", UserName = "gerente@ipt.pt", NormalizedUserName = "GERENTE@IPT.PT", Email = "gerente@ipt.pt", NormalizedEmail = "GERENTE@IPT.PT", EmailConfirmed = true, PasswordHash = "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", SecurityStamp = "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", ConcurrencyStamp = "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644" },
                 new IdentityUser { Id = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", UserName = "utilizadore@ipt.pt", NormalizedUserName = "UTILIZADORE@IPT.PT", Email = "utilizadore@ipt.pt", NormalizedEmail = "UTILIZADORE@IPT.PT", EmailConfirmed = true, PasswordHash = "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", SecurityStamp = "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", ConcurrencyStamp = "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644" }
                 );
-            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(
-            //    new IdentityUserRole<string> { UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", RoleId = "ad" },
-            //    new IdentityUserRole<string> { UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", RoleId = "c" }
-            //    );
-            //modelBuilder.Entity<IdentityUserClaim<string>>().HasData(
-            //    new IdentityUserClaim<string> { Id = 1, UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", ClaimType = "Nome", ClaimValue = "Gerente Gerente" },
-            //    new IdentityUserClaim<string> { Id = 3, UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", ClaimType = "Nome", ClaimValue = "Utilizadore Utilizadore" }
-            //    );
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string> { UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", RoleId = "ad" },
+                new IdentityUserRole<string> { UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", RoleId = "u" }
+                );
+            modelBuilder.Entity<IdentityUserClaim<string>>().HasData(
+                new IdentityUserClaim<string> { Id = 1, UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7", ClaimType = "Nome", ClaimValue = "Gerente Gerente" },
+                new IdentityUserClaim<string> { Id = 2, UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", ClaimType = "Nome", ClaimValue = "Utilizadore Utilizadore" }
+                );
             modelBuilder.Entity<Funcionarios>().HasData(
                 new Funcionarios { ID = 1, Email = "gerente@ipt.pt", Nome = "Gerente Gerente", NumFuncionario = 666, Password = null, Telefone = "987456123", TipoFuncionario = "administrador", UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7" }
                 );
             modelBuilder.Entity<Utilizadores>().HasData(
-                    new Utilizadores { ID = 1, Email = "utilizadore@ipt.pt", Nome = "Utilizadore Utilizadore", CodigoPostal = "2000-070 Almeirim", Morada = "Rua São João da Ribeira, nº59", Telefone = "987456123", UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5" }
+                    new Utilizadores { ID = 1, Email = "utilizadore@ipt.pt", Nome = "Utilizadore Utilizadore", Telefone = "987456123", UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5" }
                 );
 
 
@@ -140,9 +120,7 @@ namespace SoundGenius.Data
         public virtual DbSet<Albuns> Albuns { get; set; }
         public virtual DbSet<Faixas> Faixas { get; set; }
         public virtual DbSet<Artista> Artista { get; set; }
-
         public virtual DbSet<Utilizadores> Utilizadores { get; set; }
-
         public virtual DbSet<Funcionarios> Funcionarios { get; set; }
 
 

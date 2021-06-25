@@ -42,36 +42,13 @@ namespace SoundGenius.Models
         [Display(Name = "Telefone")]
         public string Telefone { get; set; }
 
-     
-        /// <summary>
-        /// Morada do Utilizador para onde as encomendas serão enviadas
-        /// </summary>
-        [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
-        [Display(Name = "Morada")]
-        public string Morada { get; set; }
-
-        /// <summary>
-        /// Código Postal do Utilizador
-        /// </summary>
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
-        [RegularExpression("([0-9]{4}(-)[0-9]{3})(( | d[aeo](s)? | e |-|'| d')[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ]+){1,7}.*",
-            ErrorMessage = "Deve escrever o código postal seguido da localidade ")]
-        [Display(Name = "Código Postal")]
-        public string CodigoPostal { get; set; }
 
         /// <summary>
         /// Referência ao Utilizador que se autentica
         /// </summary>
         public string UserId { get; set; }
 
-        /// <summary>
-        /// lista de Encomendas de um determinado cliente
-        /// </summary>
-       // public virtual ICollection<Encomendas> Orders { get; set; }
-        /// <summary>
-        /// lista de Itens que estao no ShoppingCart que pertence a um cliente
-        /// </summary>
-        //public virtual ICollection<ShoppingCart> Cart { get; set; }
+        
 
     }
 }

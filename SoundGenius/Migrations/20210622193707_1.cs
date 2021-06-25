@@ -54,9 +54,7 @@ namespace SoundGenius.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    Nome = table.Column<string>(nullable: true),
-                    Timestamp = table.Column<DateTime>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,31 +96,6 @@ namespace SoundGenius.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityUser",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    NormalizedUserName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityUser", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Utilizadores",
                 columns: table => new
                 {
@@ -131,8 +104,6 @@ namespace SoundGenius.Migrations
                     Nome = table.Column<string>(maxLength: 70, nullable: false),
                     Email = table.Column<string>(nullable: true),
                     Telefone = table.Column<string>(maxLength: 9, nullable: false),
-                    Morada = table.Column<string>(nullable: false),
-                    CodigoPostal = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -311,8 +282,17 @@ namespace SoundGenius.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad", "94f374f0-35dc-4a8c-af86-de113d3d06b1", "administrador", "administrador" },
-                    { "c", "322f846e-33d9-4079-87ba-0dcd47409aa0", "utilizadore", "utilizadore" }
+                    { "ad", "52be9b8f-6693-436c-8ce2-db95e7067936", "gerente", "gerente" },
+                    { "u", "bd59f9c4-0cad-4c6c-81e3-ae082f682b86", "utilizadore", "utilizadore" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "f554eee4-e19d-4830-a02c-aabe9f18e8a7", 0, "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644", "gerente@ipt.pt", true, false, null, "GERENTE@IPT.PT", "GERENTE@IPT.PT", "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", null, false, "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", false, "gerente@ipt.pt" },
+                    { "91b48022-fcca-4aed-8bee-63f2ff93a8c5", 0, "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644", "utilizadore@ipt.pt", true, false, null, "UTILIZADORE@IPT.PT", "UTILIZADORE@IPT.PT", "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", null, false, "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", false, "utilizadore@ipt.pt" }
                 });
 
             migrationBuilder.InsertData(
@@ -325,11 +305,11 @@ namespace SoundGenius.Migrations
                     { 8, "Long. Live. ASAP.jpg", "Hip hop", "PMW" },
                     { 7, "Testing.jpg", "Hip hop", "Fukk Sleep" },
                     { 6, "The color and the shape.jpg", "Rock Alternativo", "Pretender" },
-                    { 5, "In Your Honor.jpg", "Rock Alternativo", "Best of you" },
                     { 2, "Bleach.jpg", "Grunge", "About a girl" },
+                    { 4, "The color and the shape.jpg", "Rock Alternativo", "Everlong" },
                     { 3, "Nevermind.jpg", "Grunge", "come as you are" },
                     { 1, "MTV Unplugged.jpg", "Grunge", "The man who sold the word" },
-                    { 4, "The color and the shape.jpg", "Rock Alternativo", "Everlong" }
+                    { 5, "In Your Honor.jpg", "Rock Alternativo", "Best of you" }
                 });
 
             migrationBuilder.InsertData(
@@ -338,18 +318,9 @@ namespace SoundGenius.Migrations
                 values: new object[] { 1, "gerente@ipt.pt", "Gerente Gerente", 666, null, "987456123", "administrador", "f554eee4-e19d-4830-a02c-aabe9f18e8a7" });
 
             migrationBuilder.InsertData(
-                table: "IdentityUser",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "91b48022-fcca-4aed-8bee-63f2ff93a8c5", 0, "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644", "utilizadore@ipt.pt", true, false, null, "UTILIZADORE@IPT.PT", "UTILIZADORE@IPT.PT", "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", null, false, "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", false, "utilizadore@ipt.pt" },
-                    { "f554eee4-e19d-4830-a02c-aabe9f18e8a7", 0, "bd1c4aa5-aaed-45ff-a6e9-11e8c6888644", "gerente@ipt.pt", true, false, null, "GERENTE@IPT.PT", "GERENTE@IPT.PT", "AQAAAAEAACcQAAAAEOwjUR76Lx3fR0i9QH3Noni0nzQTLzJ9a2CM1v+IdBwB6ADWtKRgX4o4Sl8FyBIoqA==", null, false, "CYQGW2ATI3AOJUO66PHZWTHIPBZRU6NL", false, "gerente@ipt.pt" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Utilizadores",
-                columns: new[] { "ID", "CodigoPostal", "Email", "Morada", "Nome", "Telefone", "UserId" },
-                values: new object[] { 1, "2000-070 Almeirim", "utilizadore@ipt.pt", "Rua São João da Ribeira, nº59", "Utilizadore Utilizadore", "987456123", "91b48022-fcca-4aed-8bee-63f2ff93a8c5" });
+                columns: new[] { "ID", "Email", "Nome", "Telefone", "UserId" },
+                values: new object[] { 1, "utilizadore@ipt.pt", "Utilizadore Utilizadore", "987456123", "91b48022-fcca-4aed-8bee-63f2ff93a8c5" });
 
             migrationBuilder.InsertData(
                 table: "Albuns",
@@ -365,6 +336,24 @@ namespace SoundGenius.Migrations
                     { 7, 3, new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Testing.jpg", "Hip hop", "Testing" },
                     { 8, 3, new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Long. Live. ASAP.jpg", "Hip hop", "Long. Live. ASAP" },
                     { 9, 4, new DateTime(2019, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "goodbye & good riddance.jpg", "Hip hop ", "goodbye & good riddance" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "Nome", "Gerente Gerente", "f554eee4-e19d-4830-a02c-aabe9f18e8a7" },
+                    { 2, "Nome", "Utilizadore Utilizadore", "91b48022-fcca-4aed-8bee-63f2ff93a8c5" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[,]
+                {
+                    { "f554eee4-e19d-4830-a02c-aabe9f18e8a7", "ad" },
+                    { "91b48022-fcca-4aed-8bee-63f2ff93a8c5", "u" }
                 });
 
             migrationBuilder.InsertData(
@@ -462,9 +451,6 @@ namespace SoundGenius.Migrations
 
             migrationBuilder.DropTable(
                 name: "Funcionarios");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUser");
 
             migrationBuilder.DropTable(
                 name: "Utilizadores");

@@ -87,11 +87,12 @@ namespace SoundGenius.Controllers
         //     [Authorize] // anotador que força a Autenticação para dar acesso ao recurso
         // este método deixa de ser necessário, pq há uma proteção 'de classe'
 
-        [Authorize]  // apenas um utilizador autenticado e que pertença a este role, pode aceder ao conteúdo
+        [Authorize(Roles = "Gerente")]  // apenas um utilizador autenticado e que pertença a este role, pode aceder ao conteúdo
 
 
         public IActionResult Create()
         {
+            ViewData["Artista"] = new SelectList(_context.Artista.OrderBy(v => v.Nome), "ID", "Nome");
             return View();
         }
 
@@ -103,74 +104,71 @@ namespace SoundGenius.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,Data,Faixa,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
+        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,Data,Faixa,ArtistaFK,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
         {
-            // **************************************
-            // processar a fotografia
-            // **************************************
-            // vars. auxiliares
-            string caminhoCompleto = "";
-            bool haImagem = false;
+            // var auxiliar
+            string nomeImagem = "";
 
-            // será q há fotografia?
-            //    - uma hipótese possível, seria reenviar os dados para a View e solicitar a adição da imagem
-            //    - outra hipótese, será associar ao faixa uma fotografia 'por defeito'
-            if (fotoAlbum == null) { album.FicheiroImg = "NoFaixa.png"; }
+            if (fotoAlbum == null)
+            {
+                //não ha ficheiro
+                ModelState.AddModelError("", "Adicione por favor a capa do video");
+                ViewData["Id"] = new SelectList(_context.Albuns.OrderBy(v => v.Titulo), "id", "Titulo", album.Titulo);
+                return View(album);
+            }
             else
             {
-                // há ficheiro
-                // será o ficheiro uma imagem?
-                if (fotoAlbum.ContentType == "image/jpeg" ||
-                    fotoAlbum.ContentType == "image/png")
+                //ha ficheiro mas sera valido
+                if (fotoAlbum.ContentType == "image/jpeg" || fotoAlbum.ContentType == "image/png")
                 {
-                    // o ficheiro é uma imagem válida
-                    // preparar a imagem para ser guardada no disco rígido
-                    // e o seu nome associado ao faixa
+
+                    // definir o novo nome da fotografia
                     Guid g;
                     g = Guid.NewGuid();
+                    nomeImagem = album.Titulo + "" + g.ToString(); // tb, poderia ser usado a formatação da data atual
+                                                                   // determinar a extensão do nome da imagem
                     string extensao = Path.GetExtension(fotoAlbum.FileName).ToLower();
-                    string nome = g.ToString() + extensao;
-                    // onde guardar o ficheiro
-                    caminhoCompleto = Path.Combine(_caminho.WebRootPath, "Imagens\\Albuns", nome);
-                    // associar o nome do ficheiro ao faixa
-                    album.FicheiroImg = nome;
-                    // assinalar que existe imagem e é preciso guardá-la no disco rígido
-                    haImagem = true;
+                    // agora, consigo ter o nome final do ficheiro
+                    nomeImagem = nomeImagem + extensao;
+
+                    // associar este ficheiro aos dados da Fotografia do cão
+                    album.FicheiroImg = nomeImagem;
+
+                    // localização do armazenamento da imagem
+                    string localizacaoFicheiro = _caminho.WebRootPath;
+                    nomeImagem = Path.Combine(localizacaoFicheiro, "Imagens\\Albuns", nomeImagem);
                 }
+
                 else
                 {
-                    // há imagem, mas não é do tipo correto
-                    album.FicheiroImg = "NoFaixa.png";
+                    //ficheiro não valido
+                    ModelState.AddModelError("", "Apenas pode associar uma imagem a um video.");
+                    return View(album);
+
                 }
             }
 
             if (ModelState.IsValid)
             {
-                _context.Add(album);
-                await _context.SaveChangesAsync();
                 try
                 {
-                    //_context.Add(album);
-                    //await _context.SaveChangesAsync();
-                    // se há imagem, vou guardá-la no disco rígido
-                    if (haImagem)
-                    {
-                        using var stream = new FileStream(caminhoCompleto, FileMode.Create);
-                        await fotoAlbum.CopyToAsync(stream);
-                    }
+                    //adicionar dados do novo video
+                    _context.Add(album);
+                    //
+                    await _context.SaveChangesAsync();
+
+                    //se cheguei, tudo correu bem
+                    using var stream = new FileStream(nomeImagem, FileMode.Create);
+                    await fotoAlbum.CopyToAsync(stream);
+
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    // se chegar aqui, é pq alguma coisa correu mesmo mal...
-                    // o que fazer?
-                    // opções a realizar (todas, ou apenas uma...):
-                    //   - escrever, no disco do servidor, um log com o erro
-                    //   - escrever numa tabela de Erros, na BD, o log do erro
-                    //   - enviar o modelo de volta para a View
-                    //   - se o erro for corrigível, corrigir o erro
+                    ModelState.AddModelError("", "Ocorreu um erro...");
                 }
             }
+            ViewData["Artista"] = new SelectList(_context.Artista.OrderBy(v => v.Nome), "ID", "Nome", album.ArtistaFK);
             return View(album);
         }
 
@@ -181,7 +179,7 @@ namespace SoundGenius.Controllers
         /// </summary>
         /// <param name="id">id do faixa</param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -236,6 +234,7 @@ namespace SoundGenius.Controllers
             return View(albuns);
         }
 
+        [Authorize(Roles = "Gerente")]
         // GET: Albuns/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

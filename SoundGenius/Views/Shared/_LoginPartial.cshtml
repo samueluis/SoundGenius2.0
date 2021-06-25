@@ -1,41 +1,41 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<SoundGenius.Data.ApplicationUser> SignInManager
-@inject UserManager<SoundGenius.Data.ApplicationUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    var nome = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+        var splitName = User.Claims.Where(cl => cl.Type.Equals("Nome", StringComparison.OrdinalIgnoreCase)).FirstOrDefault().Value.Split(' ');
 
-<ul class="navbar-nav">
-   @if (SignInManager.IsSignedIn(User)) {
-      <li class="nav-item">
-         @*
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                Olá @User.Identity.Name!
-            </a>
-         *@
+        nome = (splitName.Length == 1) ? "" : String.Concat(splitName[0], ' ', splitName[splitName.Length - 1]);
+    }
+}
+<ul class="horizontal">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item pull-right logged-dropdown">
+            <a class="nav-link text-light">Olá @nome</a>
+            <div class="logged-dropdown-content">
+                @if (User.IsInRole("gerente"))
+                {
+                    <a class="nav-link text-light" asp-action="Details" asp-controller="Funcionarios" asp-route-id="@UserManager.GetUserId(User)">Perfil</a>
+                }
+                else
+                {
+                    <a class="nav-link text-light" asp-action="Details" asp-controller="Utilizadores" asp-route-id="@UserManager.GetUserId(User)">Perfil</a>
+                }
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-light">Sair</button>
+                </form>
+            </div>
 
-         @{
-            string nomeUser = (await UserManager.GetUserAsync(User)).Nome;
-            //string fotoUser = (await UserManager.GetUserAsync(User)).Fotografia;
+        </li>
+    }
+    else
+    {
+        <li class="nav-item pull-right">
+            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-user-o text-light"></i>Entrar</a>
+        </li>
+    }
 
-         }
-         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">         
-            @nomeUser
-         </a>
-
-
-
-
-      </li>
-      <li class="nav-item">
-         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-         </form>
-      </li>
-   }
-   else {
-      <li class="nav-item">
-         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Registar</a>
-      </li>
-      <li class="nav-item">
-         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-      </li>
-   }
 </ul>

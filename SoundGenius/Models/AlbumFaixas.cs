@@ -21,7 +21,7 @@ namespace SoundGenius.Models
         public int FaixaFK { get; set; }
         public virtual Faixas Faixa { get; set; }
 
-        //public int Ordem { get; set; }
+
 
 
     }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,13 +19,13 @@ namespace SoundGenius.Controllers
     public class ArtistasController : Controller
     {
         private readonly SoundGeniusDB db;
+        private readonly IWebHostEnvironment _caminho;
 
-        public ArtistasController(SoundGeniusDB context)
+        public ArtistasController(SoundGeniusDB context, IWebHostEnvironment caminho)
         {
             db = context;
+            _caminho = caminho;
         }
-
-
 
         // GET: Faixas
         public async Task<IActionResult> Index()
@@ -61,7 +63,9 @@ namespace SoundGenius.Controllers
             return View(artista);
         }
 
+
         // GET: Faixas/Add
+        [Authorize(Roles = "Gerente")]
         public IActionResult Create()
         {
             return View();
@@ -74,14 +78,69 @@ namespace SoundGenius.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nome,Sexo,Albuns,FicheiroImg")]Artista artista, IFormFile fotoArtista)
+        public async Task<IActionResult> Create([Bind("ID,Nome,Sexo,FicheiroImg")]Artista artista, IFormFile fotoArtista)
         {
+            // var auxiliar
+            string nomeImagem = "";
+
+            if (fotoArtista == null)
+            {
+                //não ha ficheiro
+                ModelState.AddModelError("", "Adicione por favor a capa do video");
+                ViewData["Id"] = new SelectList(db.Artista.OrderBy(v => v.Nome), "id", "Nome", artista.Nome);
+                return View(artista);
+            }
+            else
+            {
+                //ha ficheiro mas sera valido
+                if (fotoArtista.ContentType == "image/jpeg" || fotoArtista.ContentType == "image/png")
+                {
+
+                    // definir o novo nome da fotografia
+                    Guid g;
+                    g = Guid.NewGuid();
+                    nomeImagem = artista.Nome + "" + g.ToString(); // tb, poderia ser usado a formatação da data atual
+                                                                     // determinar a extensão do nome da imagem
+                    string extensao = Path.GetExtension(fotoArtista.FileName).ToLower();
+                    // agora, consigo ter o nome final do ficheiro
+                    nomeImagem = nomeImagem + extensao;
+
+                    // associar este ficheiro aos dados da Fotografia do cão
+                    artista.FicheiroImg = nomeImagem;
+
+                    // localização do armazenamento da imagem
+                    string localizacaoFicheiro = _caminho.WebRootPath;
+                    nomeImagem = Path.Combine(localizacaoFicheiro, "Imagens\\Artistas", nomeImagem);
+                }
+
+                else
+                {
+                    //ficheiro não valido
+                    ModelState.AddModelError("", "Apenas pode associar uma imagem a um video.");
+                    return View(artista);
+
+                }
+            }
 
             if (ModelState.IsValid)
             {
-                db.Add(artista);
-                await db.SaveChangesAsync(); // commit
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    //adicionar dados do novo video
+                    db.Add(artista);
+                    //
+                    await db.SaveChangesAsync();
+
+                    //se cheguei, tudo correu bem
+                    using var stream = new FileStream(nomeImagem, FileMode.Create);
+                    await fotoArtista.CopyToAsync(stream);
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Ocorreu um erro...");
+                }
             }
 
             // alguma coisa correu mal.
@@ -93,6 +152,7 @@ namespace SoundGenius.Controllers
 
 
         // GET: Faixas/Edit/5
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -147,6 +207,7 @@ namespace SoundGenius.Controllers
 
 
         // GET: Faixas/Delete/5
+        [Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

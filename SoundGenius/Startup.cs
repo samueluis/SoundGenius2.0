@@ -35,7 +35,7 @@ namespace SoundGenius
                 );
             //  services.AddDefaultIdentity<IdentityUser>( 
             // deixei de usar a referência ao Utilizador standard para passar a usar o 'meu' novo utilizador
-            services.AddDefaultIdentity<ApplicationUser>(
+            services.AddDefaultIdentity<IdentityUser>(
                options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()  // ativa o funcionamento dos ROLES
                 .AddEntityFrameworkStores<SoundGeniusDB>();

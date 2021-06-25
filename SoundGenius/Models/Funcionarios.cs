@@ -12,7 +12,7 @@ namespace SoundGenius.Models
         /// </summary>
         public Funcionarios()
         {
-            //Orders = new HashSet<Encomendas>();
+            
         }
 
         [Key]
@@ -53,16 +53,15 @@ namespace SoundGenius.Models
         public int NumFuncionario { get; set; }
 
         /// <summary>
-        /// Tipo do Funcionário (Admin ou Gestor de Armazém)
+        /// Tipo do Funcionário 
         /// </summary>
         [Display(Name = "Tipo de Funcionário")]
         public string TipoFuncionario { get; set; }
+
 
         /// <summary>
         /// Referência ao Utilizador que se autentica
         /// </summary>
         public string UserId { get; set; }
-
-        //public virtual ICollection<Encomendas> Orders { get; set; }
     }
 }

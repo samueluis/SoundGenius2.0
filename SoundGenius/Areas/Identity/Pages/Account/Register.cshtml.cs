@@ -1,49 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-
 using SoundGenius.Data;
+using SoundGenius.Models;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.Security.Claims;
 
 namespace SoundGenius.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
-
-
+        private readonly SoundGeniusDB db;
 
         public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            IWebHostEnvironment caminho)
+            SoundGeniusDB context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
-
+            db = context;
         }
 
         [BindProperty]
@@ -53,41 +50,28 @@ namespace SoundGenius.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-
-        /// <summary>
-        /// esta classe identifica os dados que estão a ser recolhidos na interface de 'Registo'
-        /// </summary>
         public class InputModel
         {
-            [Required(ErrorMessage = "O {0} é de preeenchimento obrigatório")]
-            [EmailAddress(ErrorMessage = "O {0} está mal escrito...")]
+            [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+            [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "A {0} deve ter entre {2} e {1} carateres de tamanho.", MinimumLength = 6)]
+            [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
+            [StringLength(100, MinimumLength = 6, ErrorMessage = "A {0} deve ter ao menos {2} e no máximo {1} caracteres.")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "A password e a sua confirmação não correspondem.")]
+            [Display(Name = "Confirme password")]
+            [Compare("Password", ErrorMessage = "A password e a confirmação não corresponde.")]
             public string ConfirmPassword { get; set; }
 
-            //************************************************************************************************
-
-            /// <summary>
-            /// recolhe o NOME do utilizador que se regista
-            /// </summary>
-            [Required(ErrorMessage = "O Nome é de preenchimento obrigatório")]
-            [StringLength(40, ErrorMessage = "O {0} não pode ter mais de {1} carateres.")]
-            [RegularExpression("[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ]+(( | d[ao](s)? | e |-|'| d')[A-ZÓÂÍ][a-zçáéíóúàèìòùãõäëïöüâêîôûñ]+){1,3}",
-                            ErrorMessage = "Deve escrever entre 2 e 4 nomes, começados por uma Maiúscula, seguidos de minúsculas.")]
-            public string Nome { get; set; }
+            ///Pode ser interessante
+            public Utilizadores Utilizadore { get; set; }
 
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -95,57 +79,50 @@ namespace SoundGenius.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
-
-
-
-        /// <summary>
-        /// este método reage a uma interação por HTTP POST
-        /// </summary>
-        /// <param name="fotoUser">Fotografia do novo Utilizador</param>
-        /// <param name="returnUrl">caso exista, define para onde se reencaminha a ação do programa, após o Registo </param>
-        /// <returns></returns>
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-
-            returnUrl = returnUrl ?? Url.Content("~/");
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-
+            returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
-                // criação de um novo utilizador
-                var user = new ApplicationUser
+                var user = new IdentityUser
                 {
                     UserName = Input.Email,
-                    Email = Input.Email,
-                    Nome = Input.Nome,
-                    Timestamp = DateTime.Now
+                    Email = Input.Email
                 };
 
-                // vou escrever esses dados na BD
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
                 if (result.Succeeded)
                 {
-                    // se cheguei aqui, é pq houve sucesso na escrita na BD
-
+                    var claim = new System.Security.Claims.Claim("Nome", Input.Utilizadore.Nome);
+                    await _userManager.AddClaimAsync(user, claim);
+                    await _userManager.AddToRoleAsync(user, "Utilizadore");
                     _logger.LogInformation("User created a new account with password.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                    try
+                    {
+                        Utilizadores novoUtilizadore = new Utilizadores
+                        {
+                            Nome = Input.Utilizadore.Nome,
+                            Email = Input.Email,
+                            UserId = user.Id,
+                            Telefone = Input.Utilizadore.Telefone,
+                        };
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        db.Add(novoUtilizadore);
+                        await db.SaveChangesAsync();
+                    }
+                    catch (Exception)
+                    {
+                        await _userManager.RemoveFromRoleAsync(user, "Utilizadore");
+                        await _userManager.RemoveClaimAsync(user, claim);
+                        await _userManager.DeleteAsync(user);
+
+                        return RedirectToAction("Index", "Home");
+                    }
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
                     }
                     else
                     {
@@ -159,12 +136,8 @@ namespace SoundGenius.Areas.Identity.Pages.Account
                 }
             }
 
-
-
-
             // If we got this far, something failed, redisplay form
             return Page();
         }
     }
 }
-

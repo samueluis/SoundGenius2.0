@@ -44,7 +44,7 @@ namespace SoundGenius.Models
 
 
         /// <summary>
-        /// lista de Animais de um determinado Artista
+        /// lista de albuns de um determinado Artista
         /// </summary>
         public virtual ICollection<Albuns> Albuns { get; set; }
     }
