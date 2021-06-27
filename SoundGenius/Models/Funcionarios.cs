@@ -52,11 +52,7 @@ namespace SoundGenius.Models
         [Display(Name = "Número de Funcionário")]
         public int NumFuncionario { get; set; }
 
-        /// <summary>
-        /// Tipo do Funcionário 
-        /// </summary>
-        [Display(Name = "Tipo de Funcionário")]
-        public string TipoFuncionario { get; set; }
+        
 
 
         /// <summary>

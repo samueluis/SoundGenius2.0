@@ -31,7 +31,7 @@ namespace SoundGenius.Controllers
 
         // GET: Utilizadores/Details/5
         [Authorize(Roles = "Gerente,utilizadore")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -39,7 +39,7 @@ namespace SoundGenius.Controllers
             }
 
             var utilizadores = await _context.Utilizadores
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.UserId == id);
             if (utilizadores == null)
             {
                 return NotFound();

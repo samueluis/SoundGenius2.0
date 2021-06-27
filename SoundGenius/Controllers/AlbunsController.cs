@@ -104,7 +104,7 @@ namespace SoundGenius.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,Data,Faixa,ArtistaFK,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
+        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,Data,ArtistaFK,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
         {
             // var auxiliar
             string nomeImagem = "";
