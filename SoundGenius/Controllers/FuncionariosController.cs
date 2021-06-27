@@ -25,13 +25,15 @@ namespace SoundGenius.Controllers
         }
 
         // GET: Funcionarios
-        //[Authorize(Roles = "administrador")]
+        //[Authorize(Roles = "Gerente")]
+        //lista todos os funcionarios
         public async Task<IActionResult> Index()
         {
             return View(await _context.Funcionarios.ToListAsync());
         }
 
         // GET: Funcionarios/Details/GUID
+        //mostra os detalhes do funcionario
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -51,6 +53,7 @@ namespace SoundGenius.Controllers
 
         // GET: Funcionarios/Create
         //[Authorize(Roles = "administrador")]
+        //cria um funcionario
         public IActionResult Create()
         {
             return View();
@@ -61,8 +64,8 @@ namespace SoundGenius.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "administrador")]
-        public async Task<IActionResult> Create([Bind("ID,Nome,Email,Telefone,password,NumFuncionario,TipoFuncionario")] Funcionarios funcionarios)
+        //[Authorize(Roles = "Gerente")]
+        public async Task<IActionResult> Create([Bind("ID,Nome,Email,Telefone,password,NumFuncionario")] Funcionarios funcionarios)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +75,6 @@ namespace SoundGenius.Controllers
                 {
                     var claim = new System.Security.Claims.Claim("Nome", funcionarios.Nome);
                     await _userManager.AddClaimAsync(user, claim);
-                    var result1 = await _userManager.AddToRoleAsync(user, funcionarios.TipoFuncionario);
                     funcionarios.Password = null;
                     funcionarios.UserId = user.Id;
                     try
@@ -83,7 +85,6 @@ namespace SoundGenius.Controllers
                     }
                     catch (Exception)
                     {
-                        await _userManager.RemoveFromRoleAsync(user, funcionarios.TipoFuncionario);
                         await _userManager.RemoveClaimAsync(user, claim);
                         await _userManager.DeleteAsync(user);
 
@@ -97,6 +98,8 @@ namespace SoundGenius.Controllers
         }
 
         // GET: Funcionarios/Edit/5
+        //[Authorize(Roles = "Gerente")]
+        //edita um funcionario
         public async Task<IActionResult> Edit(int? id)
         {
             var funcionarios = new Funcionarios();
@@ -107,9 +110,6 @@ namespace SoundGenius.Controllers
                 return NotFound();
             }
 
-            if (User.IsInRole("gestorArmazem"))
-                funcionarios = await _context.Funcionarios.FirstOrDefaultAsync(f => f.UserId == _userManager.GetUserId(User));
-            else
                 funcionarios = await _context.Funcionarios.FindAsync(id);
 
             if (funcionarios == null)
@@ -124,7 +124,8 @@ namespace SoundGenius.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,Email,Telefone,NumFuncionario,TipoFuncionario")] Funcionarios funcionarios)
+       
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,Email,Telefone,NumFuncionario")] Funcionarios funcionarios)
         {
             if (id != funcionarios.ID)
             {

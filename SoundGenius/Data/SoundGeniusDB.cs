@@ -51,7 +51,7 @@ namespace SoundGenius.Data
                 new IdentityUserClaim<string> { Id = 2, UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5", ClaimType = "Nome", ClaimValue = "Utilizadore Utilizadore" }
                 );
             modelBuilder.Entity<Funcionarios>().HasData(
-                new Funcionarios { ID = 1, Email = "gerente@ipt.pt", Nome = "Gerente Gerente", NumFuncionario = 666, Password = null, Telefone = "987456123", TipoFuncionario = "administrador", UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7" }
+                new Funcionarios { ID = 1, Email = "gerente@ipt.pt", Nome = "Gerente Gerente", NumFuncionario = 666, Password = null, Telefone = "987456123", UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7" }
                 );
             modelBuilder.Entity<Utilizadores>().HasData(
                     new Utilizadores { ID = 1, Email = "utilizadore@ipt.pt", Nome = "Utilizadore Utilizadore", Telefone = "987456123", UserId = "91b48022-fcca-4aed-8bee-63f2ff93a8c5" }

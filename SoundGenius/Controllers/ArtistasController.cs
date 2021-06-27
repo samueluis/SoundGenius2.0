@@ -27,7 +27,8 @@ namespace SoundGenius.Controllers
             _caminho = caminho;
         }
 
-        // GET: Faixas
+        // GET: Artistas
+        //lista os artistas
         public async Task<IActionResult> Index()
         {
             // em SQL, db.music.ToListAsync() sigGeneroica:
@@ -39,11 +40,11 @@ namespace SoundGenius.Controllers
 
 
 
-        // GET: Faixas/Details/5
+        // GET: artista/Details/5
         /// <summary>
-        /// Mostra os detalhes de um Dono
+        /// Mostra os detalhes de uma artista
         /// </summary>
-        /// <param name="id">identificador do Dono a detalhar</param>
+        /// <param name="id">identificador do artista a detalhar</param>
         /// <returns></returns>
         public async Task<IActionResult> Details(int? id)
         {
@@ -64,8 +65,9 @@ namespace SoundGenius.Controllers
         }
 
 
-        // GET: Faixas/Add
-        [Authorize(Roles = "Gerente")]
+        // GET: artista/Add
+        //[Authorize(Roles = "Gerente")]
+        //cria um artista
         public IActionResult Create()
         {
             return View();
@@ -73,7 +75,7 @@ namespace SoundGenius.Controllers
 
 
 
-        // POST: Faixas/Add
+        // POST: artista/Add
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -126,7 +128,7 @@ namespace SoundGenius.Controllers
             {
                 try
                 {
-                    //adicionar dados do novo video
+                    //adicionar dados do novo artista
                     db.Add(artista);
                     //
                     await db.SaveChangesAsync();
@@ -152,7 +154,8 @@ namespace SoundGenius.Controllers
 
 
         // GET: Faixas/Edit/5
-        [Authorize(Roles = "Gerente")]
+        //[Authorize(Roles = "Gerente")]
+        //edita um artista
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -169,7 +172,7 @@ namespace SoundGenius.Controllers
         }
 
 
-        // POST: Faixas/Edit/5
+        // POST: artista/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -206,8 +209,9 @@ namespace SoundGenius.Controllers
 
 
 
-        // GET: Faixas/Delete/5
-        [Authorize(Roles = "Gerente")]
+        // GET: artista/Delete/5
+        //[Authorize(Roles = "Gerente")]
+        //apaga um artista
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

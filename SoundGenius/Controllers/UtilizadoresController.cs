@@ -11,7 +11,7 @@ using SoundGenius.Models;
 
 namespace SoundGenius.Controllers
 {
-    [Authorize(Roles = "Gerente,utilizadore")]
+    //[Authorize(Roles = "Gerente,utilizadore")]
     public class UtilizadoresController : Controller
     {
         private readonly SoundGeniusDB _context;
@@ -23,15 +23,17 @@ namespace SoundGenius.Controllers
 
 
         // GET: Utilizadores
-        [Authorize(Roles = "Gerente")]
+        //[Authorize(Roles = "Gerente")]
+        //lista os dados dos utilizadores
         public async Task<IActionResult> Index()
         {
             return View(await _context.Utilizadores.ToListAsync());
         }
 
         // GET: Utilizadores/Details/5
-        [Authorize(Roles = "Gerente,utilizadore")]
-        public async Task<IActionResult> Details(int? id)
+       // [Authorize(Roles = "Gerente,utilizadore")]
+       //mostra os dados de um utilizador
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
@@ -39,7 +41,7 @@ namespace SoundGenius.Controllers
             }
 
             var utilizadores = await _context.Utilizadores
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.UserId == id);
             if (utilizadores == null)
             {
                 return NotFound();
@@ -51,6 +53,8 @@ namespace SoundGenius.Controllers
 
 
         // GET: Utilizadores/Edit/5
+        //[Authorize(Roles = "Gerente")]
+        ///edita os dados de um utilizador
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -69,6 +73,7 @@ namespace SoundGenius.Controllers
         // POST: Utilizadores/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Nome,Email,Telefone,UserId")] Utilizadores utilizadores)

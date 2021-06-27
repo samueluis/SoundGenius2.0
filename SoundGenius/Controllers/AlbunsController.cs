@@ -84,10 +84,9 @@ namespace SoundGenius.Controllers
 
 
         // GET: Albuns/Create
-        //     [Authorize] // anotador que força a Autenticação para dar acesso ao recurso
         // este método deixa de ser necessário, pq há uma proteção 'de classe'
 
-        [Authorize(Roles = "Gerente")]  // apenas um utilizador autenticado e que pertença a este role, pode aceder ao conteúdo
+        //[Authorize(Roles = "Gerente")]  // apenas um utilizador autenticado e que pertença a este role, pode aceder ao conteúdo
 
 
         public IActionResult Create()
@@ -104,7 +103,7 @@ namespace SoundGenius.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,Data,Faixa,ArtistaFK,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
+        public async Task<IActionResult> Create([Bind("ID,Titulo,Genero,Data,ArtistaFK,FicheiroImg")] Albuns album, IFormFile fotoAlbum)
         {
             // var auxiliar
             string nomeImagem = "";
@@ -179,7 +178,7 @@ namespace SoundGenius.Controllers
         /// </summary>
         /// <param name="id">id do faixa</param>
         /// <returns></returns>
-        [Authorize(Roles = "Gerente")]
+        //[Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -234,7 +233,7 @@ namespace SoundGenius.Controllers
             return View(albuns);
         }
 
-        [Authorize(Roles = "Gerente")]
+        //[Authorize(Roles = "Gerente")]
         // GET: Albuns/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -18,7 +18,7 @@ namespace SoundGenius.Models
         public int ID { get; set; }
 
         /// <summary>
-        /// Nome do Cliente
+        /// Nome do Utilizador
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         [StringLength(70, ErrorMessage = "Não pode ter maid do que {1} caráteres.")]

@@ -86,7 +86,8 @@ namespace SoundGenius.Controllers
         }
 
 
-        [Authorize(Roles = "Gerente")]
+        //[Authorize(Roles = "Gerente")]
+        //cria uma faixa
         public IActionResult Create()
         {
 
@@ -176,7 +177,7 @@ namespace SoundGenius.Controllers
         /// </summary>
         /// <param name="id">id do faixa</param>
         /// <returns></returns>
-        [Authorize(Roles = "Gerente")]
+        //[Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -229,7 +230,7 @@ namespace SoundGenius.Controllers
         }
 
         // GET: faixa/Delete/5
-        [Authorize(Roles = "Gerente")]
+        //[Authorize(Roles = "Gerente")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

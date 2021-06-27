@@ -49,14 +49,14 @@ namespace SoundGenius.Migrations
                         new
                         {
                             Id = "ad",
-                            ConcurrencyStamp = "52be9b8f-6693-436c-8ce2-db95e7067936",
+                            ConcurrencyStamp = "f6b5dd0d-c406-4f7c-a078-91cdd7d7b906",
                             Name = "gerente",
                             NormalizedName = "gerente"
                         },
                         new
                         {
                             Id = "u",
-                            ConcurrencyStamp = "bd59f9c4-0cad-4c6c-81e3-ae082f682b86",
+                            ConcurrencyStamp = "9e4959a2-5d52-48f0-b444-9ffbfad77840",
                             Name = "utilizadore",
                             NormalizedName = "utilizadore"
                         });
@@ -672,9 +672,6 @@ namespace SoundGenius.Migrations
                         .HasColumnType("nvarchar(9)")
                         .HasMaxLength(9);
 
-                    b.Property<string>("TipoFuncionario")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
 
@@ -690,7 +687,6 @@ namespace SoundGenius.Migrations
                             Nome = "Gerente Gerente",
                             NumFuncionario = 666,
                             Telefone = "987456123",
-                            TipoFuncionario = "administrador",
                             UserId = "f554eee4-e19d-4830-a02c-aabe9f18e8a7"
                         });
                 });

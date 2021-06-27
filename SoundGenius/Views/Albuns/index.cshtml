@@ -4,12 +4,12 @@
     ViewData["Title"] = "Albuns";
 }
 
-<h1>Lista de Albuns</h1>
+<h1>Lista de álbuns</h1>
 
 @if (User.IsInRole("gerente"))
 {
     <p>
-        <a asp-action="Create">Adicionar novo artista</a>
+        <a asp-action="Create">Adicionar novo álbun</a>
     </p>
 }
 <table class="table">
@@ -44,8 +44,8 @@
                     
                 </td>
                 <td>
-                    @if (User.IsInRole("gerente"))
-                    {
+                    @*@if (User.IsInRole("gerente"))
+                    {*@
                         <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
                         <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
                     }

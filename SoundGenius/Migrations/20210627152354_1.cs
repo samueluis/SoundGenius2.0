@@ -87,7 +87,6 @@ namespace SoundGenius.Migrations
                     Email = table.Column<string>(nullable: true),
                     Telefone = table.Column<string>(maxLength: 9, nullable: false),
                     NumFuncionario = table.Column<int>(nullable: false),
-                    TipoFuncionario = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -282,8 +281,8 @@ namespace SoundGenius.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad", "52be9b8f-6693-436c-8ce2-db95e7067936", "gerente", "gerente" },
-                    { "u", "bd59f9c4-0cad-4c6c-81e3-ae082f682b86", "utilizadore", "utilizadore" }
+                    { "ad", "f6b5dd0d-c406-4f7c-a078-91cdd7d7b906", "gerente", "gerente" },
+                    { "u", "9e4959a2-5d52-48f0-b444-9ffbfad77840", "utilizadore", "utilizadore" }
                 });
 
             migrationBuilder.InsertData(
@@ -314,8 +313,8 @@ namespace SoundGenius.Migrations
 
             migrationBuilder.InsertData(
                 table: "Funcionarios",
-                columns: new[] { "ID", "Email", "Nome", "NumFuncionario", "Password", "Telefone", "TipoFuncionario", "UserId" },
-                values: new object[] { 1, "gerente@ipt.pt", "Gerente Gerente", 666, null, "987456123", "administrador", "f554eee4-e19d-4830-a02c-aabe9f18e8a7" });
+                columns: new[] { "ID", "Email", "Nome", "NumFuncionario", "Password", "Telefone", "UserId" },
+                values: new object[] { 1, "gerente@ipt.pt", "Gerente Gerente", 666, null, "987456123", "f554eee4-e19d-4830-a02c-aabe9f18e8a7" });
 
             migrationBuilder.InsertData(
                 table: "Utilizadores",

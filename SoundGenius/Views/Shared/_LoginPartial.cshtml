@@ -16,14 +16,17 @@
         <li class="nav-item pull-right logged-dropdown">
             <a class="nav-link text-light">Olá @nome</a>
             <div class="logged-dropdown-content">
-                @if (User.IsInRole("gerente"))
-                {
-                    <a class="nav-link text-light" asp-action="Details" asp-controller="Funcionarios" asp-route-id="@UserManager.GetUserId(User)">Perfil</a>
-                }
-                else
-                {
-                    <a class="nav-link text-light" asp-action="Details" asp-controller="Utilizadores" asp-route-id="@UserManager.GetUserId(User)">Perfil</a>
-                }
+                    @if (User.IsInRole("gerente"))
+                    {
+
+                        <a class="nav-link text-light" asp-action="Details" asp-controller="Funcionarios" asp-route-id="@UserManager.GetUserId(User)">Perfil</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link text-light" asp-action="Details" asp-controller="Utilizadores" asp-route-id="@UserManager.GetUserId(User)">Perfil</a>
+                    }
+
+                
                 <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button type="submit" class="nav-link btn btn-link text-light">Sair</button>
                 </form>

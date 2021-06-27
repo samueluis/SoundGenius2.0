@@ -11,7 +11,7 @@ using SoundGenius.Models;
 
 namespace SoundGenius.Controllers
 {
-    [Authorize(Roles = "gerente")]
+    //[Authorize(Roles = "gerente")]
     public class AlbumFaixasController : Controller
     {
         private readonly SoundGeniusDB _context;
@@ -21,14 +21,16 @@ namespace SoundGenius.Controllers
             _context = context;
         }
 
-        // GET: CreateMusic
+        // GET: AlbumFaixas
+        //lista as faixas associadas aos albuns
         public async Task<IActionResult> Index()
         {
             var soundGeniusDB = _context.AlbumFaixas.Include(a => a.Album).Include(a => a.Faixa);
             return View(await soundGeniusDB.ToListAsync());
         }
 
-        // GET: CreateMusic/Details/5
+        // GET: AlbumFaixas/Details/5
+        //mostra os detalhes do AlbumFaixa
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,7 +50,8 @@ namespace SoundGenius.Controllers
             return View(albumFaixas);
         }
 
-        // GET: CreateMusic/Create
+        // GET: AlbumFaixas/Create
+        //cria um albumfaixas
         public IActionResult Create()
         {
             ViewData["AlbumFK"] = new SelectList(_context.Albuns, "ID", "Titulo");
@@ -56,7 +59,7 @@ namespace SoundGenius.Controllers
             return View();
         }
 
-        // POST: CreateMusic/Create
+        // POST: AlbumFaixas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]

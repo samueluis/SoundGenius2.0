@@ -9,7 +9,7 @@
 @if (User.IsInRole("gerente"))
 {
     <p>
-        <a asp-action="Create">Adicionar novo Musica</a>
+        <a asp-action="Create">Adicionar novo Música</a>
     </p>
 }
 <table class="table">
@@ -50,11 +50,11 @@
 
                     <text>
 
-                        @if (User.IsInRole("gerente"))
-                        {
-                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                        }
+                        @*@if (User.IsInRole("gerente"))
+                        {*@
+                            <a asp-action="Edit" asp-route-id="@item.ID">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@item.ID">Apagar</a>
+                        @*}*@
                     </text>
                 </td>
             </tr>
