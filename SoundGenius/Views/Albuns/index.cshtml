@@ -6,12 +6,12 @@
 
 <h1>Lista de álbuns</h1>
 
-@if (User.IsInRole("gerente"))
-{
+@*@if (User.IsInRole("gerente"))
+{*@
     <p>
         <a asp-action="Create">Adicionar novo álbun</a>
     </p>
-}
+@*}*@
 <table class="table">
     <thead>
         <tr>
